@@ -35,37 +35,71 @@ app.get('/clientes', (req, res) => {
         if (error) {
             throw error;
         } else {
-            res.send( results )
+            res.send(results)
         }
     })
 })
 
 
 //Insertar Cliente
-app.post( '/clientes', (req,res)=>{
-    
-
-    cliente = req.body
-    a=
-    {   
+// La FECHA es "YYYY-MM-DD"
+app.post('/clientes', (req, res) => {
+    a = {
         "nit": req.body.nit,
         "nombres": req.body.nombres,
         "apellidos": req.body.apellidos,
         "direccion": req.body.direccion,
         "telefono": req.body.telefono,
-        "fecha_nacimiento": "str_to_date('"+req.body.fecha_nacimiento + "','%m-%d-%Y')"
-      }
+        "fecha_nacimiento": req.body.fecha_nacimiento
+    }
 
-
-    console.log( a )
-    conectar.query('insert into clientes SET ?', a , (error, results)=>{
-        if(error){
+    conectar.query('insert into clientes SET ?', a, (error, results) => {
+        if (error) {
             console.log(error);
-        }else{
+        } else {
             //console.log(results);   
-            res.send(results);         
+            res.send(results);
         }
     });
+})
+
+//Borrar un cliente
+app.delete('/clientes/:id', (req, res) => {
+    const id = req.params.id
+    conectar.query('select * from clientes where id_cliente=?', id, (error, results) => {
+        if (error ||  results.length === 0) {            
+            res.send("El cliente no existe...")
+        } else {
+            conectar.query('delete from clientes  where id_cliente = ?', [id], (error, results) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    res.send("Cliente "+id+" borrado")
+                    
+                }
+            })
+        }
+    })
+})
+
+
+//Update cliente
+app.put("/clientes/:id",(req,res)=>{
+    const id = req.params.id
+    conectar.query('select * from clientes where id_cliente=?', id, (error, results) => {
+        if (error ||  results.length === 0) {            
+            res.send("El cliente no existe...")
+        } else {
+            conectar.query('update clientes set ? where id_cliente = ?', [req.body  , id], (error, results) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    res.send(results)
+                    
+                }
+            })
+        }
+    })
 })
 
 
