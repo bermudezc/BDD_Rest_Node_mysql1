@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `clientes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes` (
   `id_cliente` int NOT NULL AUTO_INCREMENT,
-  `nit` varchar(9) DEFAULT NULL,
+  `dni` varchar(9) DEFAULT NULL,
   `nombres` varchar(60) DEFAULT NULL,
   `apellidos` varchar(60) DEFAULT NULL,
   `direccion` varchar(100) DEFAULT NULL,
@@ -15,4 +15,4 @@ CREATE TABLE `clientes` (
 
 
 LOCK TABLES `clientes` WRITE;
-INSERT INTO `clientes` VALUES (1,'c/f','Jose Luis','Lopez Perez','Guatemala Ciudad','5555','1990-01-10');
+INSERT INTO `clientes` VALUES (1,'212212','Jose Luis','Lopez Perez','Guatemala Ciudad','5555','1990-01-10');

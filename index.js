@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 //Listar Clientes
 app.get('/clientes', (req, res) => {
-    conectar.query('SELECT clientes.id_cliente,clientes.nit,clientes.nombres,clientes.apellidos,clientes.direccion,clientes.telefono, DATE_FORMAT(clientes.fecha_nacimiento,"%d-%m-%Y") as fecha_nacimiento FROM clientes;', (error, results) => {
+    conectar.query('SELECT clientes.id_cliente,clientes.dni,clientes.nombres,clientes.apellidos,clientes.direccion,clientes.telefono, DATE_FORMAT(clientes.fecha_nacimiento,"%d-%m-%Y") as fecha_nacimiento FROM clientes;', (error, results) => {
         if (error) {
             throw error;
         } else {
@@ -57,7 +57,7 @@ app.get('/clientes/:id', (req, res) => {
 // La FECHA es "YYYY-MM-DD"
 app.post('/clientes', (req, res) => {
     a = {
-        "nit": req.body.nit,
+        "dni": req.body.dni,
         "nombres": req.body.nombres,
         "apellidos": req.body.apellidos,
         "direccion": req.body.direccion,

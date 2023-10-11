@@ -20,7 +20,7 @@ try {
     console.error('Error en la conexion: ' + error.stack);
 }
  
-conectar.query('CREATE TABLE `clientes` (    `id_cliente` int NOT NULL AUTO_INCREMENT,    `nit` varchar(9) DEFAULT NULL,     `nombres` varchar(60) DEFAULT NULL,     `apellidos` varchar(60) DEFAULT NULL,     `direccion` varchar(100) DEFAULT NULL,     `telefono` varchar(8) DEFAULT NULL,     `fecha_nacimiento` date DEFAULT NULL,     PRIMARY KEY (`id_cliente`)   )', (error, results) => {
+conectar.query('CREATE TABLE `clientes` (    `id_cliente` int NOT NULL AUTO_INCREMENT,    `dni` varchar(8) DEFAULT NULL,     `nombres` varchar(60) DEFAULT NULL,     `apellidos` varchar(60) DEFAULT NULL,     `direccion` varchar(100) DEFAULT NULL,     `telefono` varchar(8) DEFAULT NULL,     `fecha_nacimiento` date DEFAULT NULL,     PRIMARY KEY (`id_cliente`)   )', (error, results) => {
         if (error) {
             throw error;
         } else {
@@ -28,7 +28,7 @@ conectar.query('CREATE TABLE `clientes` (    `id_cliente` int NOT NULL AUTO_INCR
         }
     })
  
-conectar.query("INSERT INTO clientes VALUES (1,'c/f','Jose Luis','Lopez Perez','Ciudad','5555','1990-01-10');", (error, results) => {
+conectar.query("INSERT INTO clientes VALUES (1,'223233','Jose Luis','Lopez Perez','Ciudad','5555','1990-01-10');", (error, results) => {
             if (error) {
                 throw error;
             } else {
