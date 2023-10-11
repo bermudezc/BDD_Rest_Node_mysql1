@@ -1,12 +1,9 @@
-//import mysql from 'mysql' // o tambien 
 const mysql = require('mysql');
 const express = require('express')
 
 const app = express();
 
 app.use(express.json())
-
-
 
 var conectar = mysql.createConnection({
     host: '10.173.97.101',
@@ -22,11 +19,13 @@ try {
     console.error('Error en la conexion: ' + error.stack);
 }
 
-
-
 app.get('/', (req, res) => {
-    res.send("<h3> Hola servidor funcionando OK...</h3> " +
-        " <h3> listar clientes:  get /clientes </h3> ")
+    res.send("<h2> API_REST Clientes funcionando OK...</h2> " +
+        " <h3> listar clientes:  get /clientes </h3> " +
+        " <h3> Insertar clientes:  post /clientes </h3> " +
+        " <h3> Borrar cliente:  delete /clientes/id </h3> " +
+        " <h3> Modificar cliente:  put /clientes/id </h3> " +
+        " <h3> listar cliente:  get /clientes/id </h3> ") 
 })
 
 //Listar Clientes
@@ -36,6 +35,19 @@ app.get('/clientes', (req, res) => {
             throw error;
         } else {
             res.send(results)
+        }
+    })
+})
+
+
+//listar un cliente
+app.get('/clientes/:id', (req, res) => {
+    const id = req.params.id
+    conectar.query('select * from clientes where id_cliente=?', id, (error, results) => {
+        if (error || results.length === 0) {
+            res.send("El cliente no existe...")
+        } else {
+             res.send(results)
         }
     })
 })
@@ -67,40 +79,38 @@ app.post('/clientes', (req, res) => {
 app.delete('/clientes/:id', (req, res) => {
     const id = req.params.id
     conectar.query('select * from clientes where id_cliente=?', id, (error, results) => {
-        if (error ||  results.length === 0) {            
+        if (error || results.length === 0) {
             res.send("El cliente no existe...")
         } else {
             conectar.query('delete from clientes  where id_cliente = ?', [id], (error, results) => {
                 if (error) {
                     console.log(error);
                 } else {
-                    res.send("Cliente "+id+" borrado")
-                    
+                    res.send("Cliente " + id + " borrado")
+
                 }
             })
         }
     })
 })
 
-
 //Update cliente
-app.put("/clientes/:id",(req,res)=>{
+app.put("/clientes/:id", (req, res) => {
     const id = req.params.id
     conectar.query('select * from clientes where id_cliente=?', id, (error, results) => {
-        if (error ||  results.length === 0) {            
+        if (error || results.length === 0) {
             res.send("El cliente no existe...")
         } else {
-            conectar.query('update clientes set ? where id_cliente = ?', [req.body  , id], (error, results) => {
+            conectar.query('update clientes set ? where id_cliente = ?', [req.body, id], (error, results) => {
                 if (error) {
                     console.log(error);
                 } else {
                     res.send(results)
-                    
+
                 }
             })
         }
     })
 })
-
 
 app.listen(8000, () => { console.log("Servidor en puerto 8000...") })
